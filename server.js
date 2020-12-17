@@ -38,6 +38,15 @@ app.post('/api/groceries/random', async(req, res, next)=> {
   }
 });
 
+app.post('/api/groceries', async(req, res, next)=> {
+  try {
+    res.send(await Grocery.create(req.body));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
 const init = async()=> {
   try {
     await syncAndSeed();
