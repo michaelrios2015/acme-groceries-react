@@ -7,41 +7,46 @@ import store from './store';
 import Groceries from './Groceries';
 import CreateForm from './CreateForm';
 
-// const _Groceries = ({ groceries, view })=> {
-//     return (
-//         <ul>
-//         {
-//             groceries.filter( grocery => !view || ( grocery.purchased && view === 'purchased') || ( !grocery.purchased && view === 'needs')).map(grocery => {
-//                 return (
-//                 <li key = { grocery.id } className = { grocery.purchased ? 'purchased' : ' '}>{ grocery.name }</li>
-//                 );
-//             })
-//         }
-//         </ul>
-//     );
-// };
 
-// const Groceries = connect(state => state)(_Groceries);
+class Route extends Component{
+    constructor(){
+        super();
+        this.state = {
+            view: ''
+        };
+    }
+    componentDidMount(){
+        window.addEventListener('hashchange', ()=>{
+            this.setState({ view: window.location.hash.slice(1) });
+        })
+        this.setState({ view: window.location.hash.slice(1) });
+
+    }
+    render(){
+        console.log(this.state);
+        const HashConnected = this.props.component;
+        return (
+            <HashConnected { ...this.state }/>
+        );
+    }
+}
 
 class _App extends Component{
     componentDidMount(){
         //console.log(this.props.bootstrap);
         this.props.bootstrap();
-        window.addEventListener('hashchange', ()=>{
-            this.props.setView(window.location.hash.slice(1));
-        })
-        this.props.setView(window.location.hash.slice(1));
+
     }
   render(){ 
     //console.log(this.props.groceries);   
-    const { groceries, view } = this.props;
-    console.log(view);
+    //const { groceries } = this.props;
+    //console.log(view);
     return (
         <div>
       <h1>Acme Groceries</h1>
-        <Nav />
+        <Route component= { Nav } />
         <CreateForm />
-        <Groceries />
+        <Route component= { Groceries } />
         </div>
       );
   }

@@ -2,7 +2,6 @@ import { createStore } from 'redux';
 
 const intialState = {
     groceries: [],
-    view: ''
 };
 
 const store = createStore((state = intialState, action)=> {
@@ -15,9 +14,6 @@ const store = createStore((state = intialState, action)=> {
     }
     if(action.type === 'CREATE'){
         state = {...state, groceries: [...state.groceries, action.grocery] };
-    }
-    if(action.type === 'SET_VIEW'){
-        state = {...state, view: action.view };
     }
     return state;
 });
